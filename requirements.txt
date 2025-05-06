@@ -1,4 +1,6 @@
 langchain
 langchain-ollama
 langchain-chroma
-pandas
+pandas~=2.2.3
+Chroma
+langchain-core~=0.3.58
