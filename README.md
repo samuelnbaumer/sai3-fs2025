@@ -4,6 +4,11 @@
 
 # Requirements
 
+# Favorite Search Terms
+- Tired Wife'S Supper
+- `Big Mac' Sauce
+- Ole'! Macaroni & Creamy Cheese Sauce!
+
 ## Tech Stack
 
 - vectorising -> langchain_ollama
