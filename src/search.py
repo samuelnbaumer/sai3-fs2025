@@ -2,7 +2,7 @@ import os
 import logging
 from langchain_ollama import OllamaEmbeddings
 from langchain_ollama.llms import OllamaLLM
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
@@ -226,7 +226,7 @@ def print_enhanced_result(result, query, llm):
         return
 
     print(f"\n{'=' * 80}")
-    print(f"🔍 Search Results for: '{query}'")
+    print(f"Search Results for: '{query}'")
     print(f"{'=' * 80}")
 
     # Generate and display the summary
