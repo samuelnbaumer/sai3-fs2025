@@ -9,6 +9,11 @@
 - `Big Mac' Sauce
 - Ole'! Macaroni & Creamy Cheese Sauce!
 
+# Learinings
+- Hallucination is really strange...
+- Python dependency management is interesting
+- Python is a cool language though 
+
 ## Tech Stack
 
 - vectorising -> langchain_ollama
