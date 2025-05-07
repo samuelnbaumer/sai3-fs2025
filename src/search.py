@@ -235,23 +235,23 @@ def print_enhanced_result(result, query, llm):
     print(f"{content_summary}")
 
     # Display relevance score
-    print(f"\n📊 Relevance Score: {result['similarity_score']:.4f}")
+    print(f"\nRelevance Score: {result['similarity_score']:.4f}")
 
     # Display original content (shortened for readability)
     content_preview = result["content"]
     if len(content_preview) > 500:
         content_preview = content_preview[:500] + "..."
 
-    print("\n📄 CONTENT PREVIEW:")
+    print("\nCONTENT PREVIEW:")
     print(f"{content_preview}")
 
     # Display metadata
-    print("\n🏷️ METADATA:")
+    print("\nMETADATA:")
     print(f"{result['metadata']}")
 
     # Generate and display suggested next queries
     suggested_queries = suggest_next_queries(llm, result["content"], query)
-    print("\n❓ YOU MIGHT ALSO WANT TO ASK:")
+    print("\nYOU MIGHT ALSO WANT TO ASK:")
     for i, suggestion in enumerate(suggested_queries, 1):
         print(f"  {i}. {suggestion}")
 
@@ -264,7 +264,7 @@ def interactive_query_loop(db_path):
         # Load the database and LLM once
         vector_store, llm = load_models_and_db(db_path)
 
-        print("\n🔎 ENHANCED CHROMA DB QUERY 🔎")
+        print("\n ENHANCED CHROMA DB QUERY ")
         print("Type your query and press Enter to search.")
         print("To exit, type 'quit', 'exit', or press Ctrl+C.")
         print("For raw results without LLM enhancement, start your query with 'raw:'")
