@@ -3,6 +3,9 @@ import logging
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 
+# ATTENTION: This code is deprecated and not in use (please don't grade it)
+#            Code is only here for documenting our progress
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,

@@ -7,6 +7,11 @@ from langchain_community.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
 import os
 
+from sympy.codegen.fnodes import dimension
+
+# ATTENTION: This code is deprecated and not in use (please don't grade it)
+#            Code is only here for documenting our progress
+
 # Configuration
 OLLAMA_MODEL = "llama3.2"  # The model name in Ollama
 OLLAMA_BASE_URL = "http://localhost:11434"  # Default Ollama URL
