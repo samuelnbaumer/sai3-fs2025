@@ -6,6 +6,8 @@ from langchain_chroma import Chroma
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
+#TODO: Remove deprecate functions (.chain -> invoke(), LLMChaine -> Sequence)
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
