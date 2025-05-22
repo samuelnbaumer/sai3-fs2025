@@ -22,5 +22,3 @@ for file in "${FILES[@]}"; do
   echo "Downloading $file..."
   wget -q --show-progress "$BASE_URL/$file" -O "$TARGET_DIR/$file"
 done
-
-echo "✅ Done!"
