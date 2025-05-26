@@ -20,12 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire app directory structure
 COPY . .
 
-# Set environment variables
-ENV PYTHONPATH=/app
-ENV OLLAMA_HOST=http://host.docker.internal:11434
-
-# Pull required Ollama models
-RUN ollama pull mxbai-embed-large && \
+# Start Ollama server and pull required models
+RUN ollama serve & \
+    sleep 5 && \
+    ollama pull mxbai-embed-large && \
     ollama pull llama3.2
 
 # Command to run the script
