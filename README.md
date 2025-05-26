@@ -56,6 +56,7 @@ To run the vectorizer, please follow these steps:
 2. create new pyenv `pyenv virtualenv 3.11.9 sai3-fs25-group2`
 3. activate pyenv `pyenv activate sai3-fs25-group2`
 4. install requirements `pip install -r requirements.txt`
+5. fetch data by running `./fetch_data.sh`
 5. run vectorizer `python src/vector.py`
 
 # Favorite Search Terms
@@ -68,6 +69,6 @@ To run the vectorizer, please follow these steps:
 # Learinings
 
 - Hallucination is really strange...
-- Python dependency management is interesting
+- Python dependency management is _interesting_
 - Python is a cool language though
 
