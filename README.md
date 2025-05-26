@@ -60,9 +60,10 @@ To run the vectorizer, please follow these steps:
 
 # Favorite Search Terms
 
-- Tired Wife'S Supper
-- `Big Mac' Sauce
-- Ole'! Macaroni & Creamy Cheese Sauce!
+- funky recipe -> Recipe For A Happy Day
+- Big Mac Sauce
+- Swiss Vegetable Medley
+- Recipe For Life
 
 # Learinings
 
