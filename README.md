@@ -34,7 +34,7 @@ A sample vectorised database is available so you don't have to do that yourself.
 Pro-Tip: Please assign sufficient processing power to your docker engine as it can get quite processing-heavy.
 
 ## Getting Started
-Please download the database.zip and unpack it in the root of this repository: https://bernerfachhochschule-my.sharepoint.com/:u:/g/personal/nusss8_bfh_ch/EYesewYJn9hFnotQYC9g3zcBEVc_6M1C1QFz3uTmKhXkBA?e=RVa2cn
+**Please download the database.zip** and unpack it in the root of this repository: https://bernerfachhochschule-my.sharepoint.com/:u:/g/personal/nusss8_bfh_ch/EYesewYJn9hFnotQYC9g3zcBEVc_6M1C1QFz3uTmKhXkBA?e=RVa2cn
 
 Afterward, please run the following commands to get the app running:
 1. `docker build -t sai2-fs25-group2 .`
