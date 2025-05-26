@@ -38,7 +38,7 @@ Please download the database.zip and unpack it in the root of this repository: h
 
 Afterward, please run the following commands to get the app running:
 1. `docker build -t sai2-fs25-group2 .`
-2. `docker run -it --add-host=host.docker.internal:host-gateway sai2-fs25-group2`
+2. `docker run -it sai2-fs25-group2`
 
 ## Additional Steps
 
