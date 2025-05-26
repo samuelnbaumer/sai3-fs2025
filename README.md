@@ -37,7 +37,7 @@ Pro-Tip: Please assign sufficient processing power to your docker engine as it c
 
 Please run the following commands to get the app running:
 1. `docker build -t sai2-fs25-group2 .`
-2. `docker run -t sai2-fs25-group2 .`
+2. `docker run -t sai2-fs25-group2`
 
 ## Additional Steps
 
