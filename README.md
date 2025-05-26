@@ -41,8 +41,22 @@ Afterward, please run the following commands to get the app running:
 2. `docker run -it sai2-fs25-group2`
 
 ## Additional Steps
+Please note that this is only tested on macos. Other systems are not supported!
 
+It is also important to have llama3.2 and mxbai-embed-large running locally. Pleas run the following if not already done:
 
+1. install ollama `brew install ollama`
+2. start ollama background service `brew services start ollama`
+3. pull llama3.2 `ollama pull llama3.2`
+4. pull the embed model `ollama pull mxbai-embed-large`
+
+To run the vectorizer, please follow these steps:
+
+1. install 3.11.9 using pyenv (if not installed already) `pyenv install 3.11.9`
+2. create new pyenv `pyenv virtualenv 3.11.9 sai3-fs25-group2`
+3. activate pyenv `pyenv activate sai3-fs25-group2`
+4. install requirements `pip install -r requirements.txt`
+5. run vectorizer `python src/vector.py`
 
 # Favorite Search Terms
 
