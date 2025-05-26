@@ -71,10 +71,3 @@ To run the vectorizer, please follow these steps:
 - Python dependency management is interesting
 - Python is a cool language though
 
-## Tech Stack
-
-- vectorising -> langchain_ollama
-- document extraction -> pandas
-- Chroma DB https://www.trychroma.com/
-- llama -> llama3.2
-  ~~- frontend -> https://github.com/open-webui/open-webui~~
