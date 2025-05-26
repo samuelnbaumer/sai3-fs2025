@@ -6,7 +6,7 @@ from langchain_chroma import Chroma
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
-#TODO: Remove deprecate functions (.chain -> invoke(), LLMChaine -> Sequence)
+#TODO: Remove deprecate functions (.chain -> invoke(), LLMChaine -> Sequence). But for now good enough, all the blogpost/stackoverflow postst use the deprecated libraries to
 
 # Configure logging
 logging.basicConfig(
