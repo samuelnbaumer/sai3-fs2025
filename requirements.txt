@@ -8,3 +8,6 @@ fastparquet
 chromadb
 langchain-chroma
 langchain-ollama
+# Trying to get some Frontent shit going
+uvicorn==0.29.0
+fastapi==0.111.0

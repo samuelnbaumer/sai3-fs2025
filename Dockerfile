@@ -31,4 +31,5 @@ RUN OLLAMA_DEBUG=0 ollama serve & \
 EXPOSE 8000
 
 # Start Ollama server and run the application
-CMD OLLAMA_DEBUG=0 ollama serve > /dev/null 2>&1 & sleep 5 && python -i src/search.py
+CMD OLLAMA_DEBUG=0 ollama serve > /dev/null 2>&1 & sleep 5 && uvicorn src.main:app --host 127.0.0.1 --port 8000 --workers 1
+
