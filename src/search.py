@@ -222,7 +222,7 @@ SUGGESTED QUERIES:
 
 
 def print_enhanced_result(result, query, llm):
-    """Print a single result with enhanced information."""
+    #Print a single result with "enhanced" information
     if not result:
         print("\nNo matching results found.")
         return
@@ -233,7 +233,7 @@ def print_enhanced_result(result, query, llm):
 
     # Generate and display the summary
     content_summary = generate_content_summary(llm, result["content"], query)
-    print("\n📝 SUMMARY:")
+    print("\n  SUMMARY:")
     print(f"{content_summary}")
 
     # Display relevance score
@@ -261,7 +261,7 @@ def print_enhanced_result(result, query, llm):
 
 
 def interactive_query_loop(db_path):
-    """Run an enhanced interactive query loop."""
+    #Run an enhanced interactive query loop
     try:
         # Load the database and LLM once
         vector_store, llm = load_models_and_db(db_path)
