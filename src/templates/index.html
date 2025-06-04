@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipee RAG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+<header class="bg-slate-800 text-white shadow-lg">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+        <h1 class="text-2xl font-bold text-center">Recipee RAG</h1>
+        <p class="text-slate-300 text-center mt-1">Search and explore your database with AI assistance</p>
+    </div>
+</header>
+
+<main class="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4">
+    <div class="bg-white rounded-lg shadow-sm border p-4 mb-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <label for="rawMode" class="text-sm font-medium text-gray-700">Raw Mode:</label>
+                <div class="relative">
+                    <input type="checkbox" id="rawMode" class="sr-only">
+                    <div id="toggleBackground"
+                         class="w-11 h-6 bg-gray-300 rounded-full cursor-pointer transition-colors duration-200">
+                        <div id="toggleDot"
+                             class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 absolute top-1 left-1"></div>
+                    </div>
+                </div>
+            </div>
+            <button
+                    id="clearChat"
+                    class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+                Clear Chat
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-1 bg-white rounded-lg shadow-sm border overflow-hidden flex flex-col">
+        <div id="chatMessages" class="flex-1 overflow-y-auto p-6 space-y-4 min-h-0">
+            <div class="text-center text-gray-500 py-8">
+                <div class="text-lg font-medium mb-2">Welcome!</div>
+                <p>Ask me anything about your database. Our AI assistant will provide helpful responses catered to your
+                    culinary delights ;)</p>
+                <p class="text-sm mt-2">Toggle "Raw Mode" for unprocessed results.</p>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden border-t bg-gray-50 px-6 py-4">
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                <span class="text-gray-600 ml-2">Thinking...</span>
+            </div>
+        </div>
+
+        <div class="border-t bg-white p-4">
+            <div class="flex space-x-3">
+                <input
+                        type="text"
+                        id="queryInput"
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500"
+                        placeholder="Enter your query here..."
+                        maxlength="500"
+                >
+                <button
+                        id="sendButton"
+                        class="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                >
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    class ChatInterface {
+        constructor() {
+            this.chatMessages = document.getElementById('chatMessages');
+            this.queryInput = document.getElementById('queryInput');
+            this.sendButton = document.getElementById('sendButton');
+            this.loading = document.getElementById('loading');
+            this.rawModeToggle = document.getElementById('rawMode');
+            this.clearChatButton = document.getElementById('clearChat');
+            this.toggleBackground = document.getElementById('toggleBackground');
+            this.toggleDot = document.getElementById('toggleDot');
+
+            this.initializeEventListeners();
+        }
+
+        initializeEventListeners() {
+            this.sendButton.addEventListener('click', () => this.sendQuery());
+            this.queryInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.sendQuery();
+                }
+            });
+            this.clearChatButton.addEventListener('click', () => this.clearChat());
+
+            // Toggle functionality
+            this.toggleBackground.addEventListener('click', () => {
+                this.rawModeToggle.checked = !this.rawModeToggle.checked;
+                this.updateToggleVisual();
+            });
+
+            // Also handle label clicks
+            const toggleLabel = document.querySelector('label[for="rawMode"]');
+            toggleLabel.addEventListener('click', () => {
+                this.rawModeToggle.checked = !this.rawModeToggle.checked;
+                this.updateToggleVisual();
+            });
+        }
+
+        updateToggleVisual() {
+            if (this.rawModeToggle.checked) {
+                this.toggleBackground.classList.remove('bg-gray-300');
+                this.toggleBackground.classList.add('bg-red-500');
+                this.toggleDot.style.transform = 'translateX(1.25rem)';
+            } else {
+                this.toggleBackground.classList.remove('bg-red-500');
+                this.toggleBackground.classList.add('bg-gray-300');
+                this.toggleDot.style.transform = 'translateX(0)';
+            }
+
+            // Debug log
+            console.log('Raw mode toggled:', this.rawModeToggle.checked);
+        }
+
+        async sendQuery() {
+            const query = this.queryInput.value.trim();
+            if (!query) {
+                this.showError('Please enter a query.');
+                return;
+            }
+
+            // Debug log
+            console.log('Sending query with raw mode:', this.rawModeToggle.checked);
+
+            // Add user message
+            this.addMessage(query, 'user');
+
+            // Clear input and disable button
+            this.queryInput.value = '';
+            this.setLoading(true);
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        raw_mode: this.rawModeToggle.checked
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'something went wrong...');
+                }
+
+                // Add bot response
+                this.addMessage(data.response, 'bot', data.suggestions);
+
+            } catch (error) {
+                this.showError(`Error: ${error.message}`);
+                console.error('Error:', error);
+            } finally {
+                this.setLoading(false);
+            }
+        }
+
+        addMessage(content, sender, suggestions = []) {
+            const messageDiv = document.createElement('div');
+
+            if (sender === 'user') {
+                messageDiv.className = 'flex justify-end';
+                messageDiv.innerHTML = `
+                        <div class="max-w-xs sm:max-w-md lg:max-w-lg bg-blue-500 text-white rounded-lg px-4 py-3">
+                            <div class="text-sm whitespace-pre-wrap">${this.escapeHtml(content)}</div>
+                        </div>
+                    `;
+            } else {
+                messageDiv.className = 'flex justify-start';
+                const formattedContent = this.formatContent(content);
+                messageDiv.innerHTML = `
+                        <div class="max-w-xs sm:max-w-md lg:max-w-2xl bg-gray-50 border rounded-lg px-4 py-3">
+                            <div class="text-sm text-gray-800 whitespace-pre-wrap">${formattedContent}</div>
+                        </div>
+                    `;
+            }
+
+            this.chatMessages.appendChild(messageDiv);
+
+            // Add suggestions if provided and not in raw mode
+            if (suggestions && suggestions.length > 0) {
+                const suggestionsDiv = document.createElement('div');
+                suggestionsDiv.className = 'flex justify-start mt-2';
+
+                let suggestionsHtml = `
+                        <div class="max-w-xs sm:max-w-md lg:max-w-2xl bg-green-50 border border-green-200 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-green-800 mb-3">Follow-up suggestions:</h4>
+                            <div class="space-y-2">
+                    `;
+
+                suggestions.forEach((suggestion, index) => {
+                    if (suggestion && suggestion.trim()) {
+                        suggestionsHtml += `
+                                <div class="bg-white border border-green-200 rounded-md p-2 cursor-pointer hover:bg-green-50 transition-colors duration-200 text-sm text-gray-700" data-suggestion-index="${index}">
+                                    ${this.escapeHtml(suggestion)}
+                                </div>
+                            `;
+                    }
+                });
+
+                suggestionsHtml += `
+                            </div>
+                        </div>
+                    `;
+
+                suggestionsDiv.innerHTML = suggestionsHtml;
+
+                // Add click handlers to suggestions
+                const suggestionItems = suggestionsDiv.querySelectorAll('[data-suggestion-index]');
+                suggestionItems.forEach((item) => {
+                    item.addEventListener('click', () => {
+                        const index = parseInt(item.getAttribute('data-suggestion-index'));
+                        this.queryInput.value = suggestions[index];
+                        this.queryInput.focus();
+                    });
+                });
+
+                this.chatMessages.appendChild(suggestionsDiv);
+            }
+
+            this.scrollToBottom();
+        }
+
+        formatContent(content) {
+            return this.escapeHtml(content)
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'flex justify-start';
+            errorDiv.innerHTML = `
+                    <div class="max-w-xs sm:max-w-md lg:max-w-lg bg-red-50 border border-red-200 text-red-800 rounded-lg px-4 py-3">
+                        <div class="text-sm">${this.escapeHtml(message)}</div>
+                    </div>
+                `;
+            this.chatMessages.appendChild(errorDiv);
+            this.scrollToBottom();
+        }
+
+        setLoading(isLoading) {
+            if (isLoading) {
+                this.loading.classList.remove('hidden');
+            } else {
+                this.loading.classList.add('hidden');
+            }
+            this.sendButton.disabled = isLoading;
+            this.queryInput.disabled = isLoading;
+        }
+
+        scrollToBottom() {
+            setTimeout(() => {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }, 100);
+        }
+
+        clearChat() {
+            this.chatMessages.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <div class="text-lg font-medium mb-2">Chat is gone. </div>
+                        <p>Ask me anything about your database. Our AI assistant will provide helpful responses catered to your culinary delights ;)</p>
+                        <p class="text-sm mt-2">Toggle "Raw Mode" for unprocessed results</p>
+                    </div>
+                `;
+        }
+    }
+
+    // Initialize the chat interface when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        new ChatInterface();
+    });
+</script>
+</body>
+</html>
