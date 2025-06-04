@@ -8,3 +8,4 @@ fastparquet
 chromadb
 langchain-chroma
 langchain-ollama
+flask==3.1.1
