@@ -133,9 +133,9 @@ def initialize_app():
     try:
         # Use your existing function to load models and database
         vector_store, llm = load_models_and_db(db_path)
-        logging.info("Flask app initialized successfully")
+        logging.info("initialized successfully")
     except Exception as e:
-        logging.error(f"Failed to initialize app: {str(e)}")
+        logging.error(f"Failed : {str(e)}")
         raise
 
 
