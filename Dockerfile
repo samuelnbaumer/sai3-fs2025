@@ -27,8 +27,9 @@ RUN OLLAMA_DEBUG=0 ollama serve & \
     ollama pull llama3.2 && \
     ollama pull mxbai-embed-large
 
-# Expose the port (if needed)
+# Expose the Flask port
 EXPOSE 8000
+EXPOSE 1337
 
-# Start Ollama server and run the application
-CMD OLLAMA_DEBUG=0 ollama serve > /dev/null 2>&1 & sleep 5 && python -i src/search.py
+# Start Ollama server and run the Flask application
+CMD OLLAMA_DEBUG=0 ollama serve > /dev/null 2>&1 & sleep 5 && python src/webserver.py
