@@ -24,6 +24,7 @@ The implementation is built open these core dependencies:
 - llama3.2
 - mxbai-embed-large
 - https://huggingface.co/datasets/corbt/all-recipes
+- flask
 
 # Install guidelines
 A sample vectorised database is available so you don't have to do that yourself. For the best experience please run it locally as the docker image is quite resource heavy 😅.
