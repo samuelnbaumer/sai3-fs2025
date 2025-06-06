@@ -40,6 +40,12 @@ Pro-Tip: Please assign sufficient processing power to your docker engine as it c
 ## Getting Started
 **Please download the database.zip** and unpack it in the root of this repository: https://bernerfachhochschule-my.sharepoint.com/:u:/g/personal/nusss8_bfh_ch/EYesewYJn9hFnotQYC9g3zcBEVc_6M1C1QFz3uTmKhXkBA?e=RVa2cn
 
+Also make sure that you have ollama, llama3.2 and mxbai-embed-large running locally.
+1. install ollama `brew install ollama`
+2. start ollama background service `brew services start ollama`
+3. pull llama3.2 `ollama pull llama3.2`
+4. pull the embed model `ollama pull mxbai-embed-large`
+
 Afterward, please run the following commands to get the app running:
 1. `docker build -t sai2-fs25-group2 .`
 2. `docker run -p 1337:1337 sai2-fs25-group2`
