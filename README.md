@@ -40,7 +40,7 @@ Pro-Tip: Please assign sufficient processing power to your docker engine as it c
 ## Getting Started
 **Please download the database.zip** and unpack it in the root of this repository: https://bernerfachhochschule-my.sharepoint.com/:u:/g/personal/nusss8_bfh_ch/EYesewYJn9hFnotQYC9g3zcBEVc_6M1C1QFz3uTmKhXkBA?e=RVa2cn
 
-> We decided to switch to a setup where docker connects to the local ollama instance. This is due to the reason that inside the docker container llama3.2 is not able to access the gpu and therefore is really, really slow (or we built something wrong, sorry)
+> We decided to switch to a setup where docker connects to the local ollama instance. This is due to the reason that inside the docker container llama3.2 is not able to access the gpu and therefore is really, really slow (or we built something wrong, sorry). The initial Dockerfile can be found in `src/legacy/Dockerfile`
 
 Also make sure that you have ollama, llama3.2 and mxbai-embed-large running locally.
 1. install ollama `brew install ollama`
