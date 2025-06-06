@@ -2,7 +2,6 @@ import os
 import logging
 from flask import Flask, render_template, request, jsonify
 
-# Import functions from your existing script
 from search import (
     load_models_and_db,
     enhance_query,
@@ -32,7 +31,6 @@ def index():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Handle chat requests."""
     try:
         data = request.get_json()
         if not data:
@@ -44,13 +42,11 @@ def chat():
         if not user_query:
             return jsonify({'error': 'Please enter a valid query.'}), 400
 
-        # Use your existing functions
         if not raw_mode:
             enhanced_query = enhance_query(llm, user_query)
         else:
             enhanced_query = user_query
 
-        # Get results using your existing function
         results = query_chroma_db(vector_store, enhanced_query, num_results=1)
 
         if not results:
@@ -72,7 +68,6 @@ def chat():
 **Metadata:** {result['metadata']}"""
             suggestions = []
         else:
-            # Enhanced response using your existing functions
             content_summary = generate_content_summary(llm, result["content"], user_query)
             content_preview = result["content"]
             if len(content_preview) > 500:
@@ -87,7 +82,6 @@ def chat():
 {content_preview}
 
 **Metadata:** {result['metadata']}"""
-
             # Generate suggestions using your existing function
             suggestions = suggest_next_queries(llm, result["content"], user_query)
 
@@ -108,30 +102,21 @@ def health():
 
 @app.errorhandler(404)
 def not_found(error):
-    """Handle 404 errors."""
     return jsonify({'error': 'Endpoint not found.'}), 404
 
 
 @app.errorhandler(500)
 def internal_error(error):
-    """Handle 500 errors."""
     return jsonify({'error': 'Internal server error.'}), 500
 
 
 def initialize_app():
-    """Initialize the Flask app with models and database."""
     global vector_store, llm
 
-    # Set the path to your Chroma database
     current_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(os.path.dirname(current_dir), "database", "chroma_db")
 
-    # You might need to adjust this path based on your directory structure
-    # Alternative path if the above doesn't work:
-    # db_path = os.path.join(current_dir, "database", "chroma_db")
-
     try:
-        # Use your existing function to load models and database
         vector_store, llm = load_models_and_db(db_path)
         logging.info("initialized successfully")
     except Exception as e:

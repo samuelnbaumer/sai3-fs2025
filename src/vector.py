@@ -16,7 +16,7 @@ logging.basicConfig(
 )
 
 def load_parquet_files(dataset_dir):
-    """Load and combine parquet files from the dataset directory."""
+    #Load and combine parquet files from the dataset directory
     logging.info(f"Loading parquet files from {dataset_dir}")
     
     parquet_files = [
@@ -42,7 +42,7 @@ def load_parquet_files(dataset_dir):
     return combined_df
 
 def create_documents_batch(batch_df):
-    """Create documents from a batch of dataframe rows."""
+    #Create documents from a batch of dataframe rows
     documents = []
     ids = []
     for idx, row in batch_df.iterrows():
@@ -61,7 +61,7 @@ def create_documents_batch(batch_df):
     return documents, ids
 
 def load_checkpoint(checkpoint_path):
-    """Load the last processed document index from checkpoint file."""
+    #Load the last processed document index from checkpoint file
     if os.path.exists(checkpoint_path):
         try:
             with open(checkpoint_path, 'r') as f:
@@ -71,7 +71,7 @@ def load_checkpoint(checkpoint_path):
     return 0
 
 def save_checkpoint(checkpoint_path, last_index):
-    """Save the last processed document index to checkpoint file."""
+    #Save the last processed document index to checkpoint file
     try:
         with open(checkpoint_path, 'w') as f:
             json.dump({'last_processed_index': last_index}, f)
@@ -79,7 +79,7 @@ def save_checkpoint(checkpoint_path, last_index):
         logging.error(f"Error saving checkpoint: {str(e)}")
 
 def create_vector_store(df, db_path):
-    """Create and populate the vector store with documents."""
+    #Create and populate the vector store with documents
     logging.info("Initializing vector store...")
     
     # Initialize embeddings

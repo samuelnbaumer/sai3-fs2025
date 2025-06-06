@@ -101,7 +101,6 @@ def query_chroma_db(vector_store, query_text, num_results=1):
     """
     try:
         logging.info(f"Querying database for: '{query_text}'")
-
         # Perform similarity search
         results = vector_store.similarity_search_with_score(
             query=query_text,
@@ -213,7 +212,6 @@ SUGGESTED QUERIES:
                 suggestion_list.append(line)
             elif line and not line.startswith('SUGGESTED QUERIES:'):
                 suggestion_list.append(line)
-
         # Take only the first 3 suggestions
         return suggestion_list[:3]
     except Exception as e:
